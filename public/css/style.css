@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+}
+
+body{
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main{
+    flex:1
+}
+
+/* NAVBAR */
+.navbar {
+    height: 5rem;
+    padding-left: 20px !important;
+}
+
+.fa-airbnb {
+    color: red;
+    font-size: 2rem;
+}
+
+.nav-link {
+    color: rgb(0, 0, 0) !important;
+}
+
+
+/* FOOTER */
+
+footer li a {
+    text-decoration: none !important;
+}
+
+footer a:hover {
+    text-decoration: underline !important;
+}
+
+
+footer li button {
+    border: none;
+    background-color: white;
+}
+
+footer li .fa-brands {
+    color: black;
+}
+
+.card-img-top{
+    height: 20rem;
+}
+
+/* CARD OVERLAY */
+
+.card:hover .card-img-top{
+    opacity: 0.9;
+}
+
+.card:hover{
+    background-color: rgb(238, 238, 238);
+    border: 1px inset black !important;
+   
+}
+
+
+/* NEW LISTINGS */
+
+.col-8 div{
+    margin-bottom: 15px;
+}
+
+/* SHOW */
+
+.show img{
+    max-height: 500px !important;
+    width: auto;
+    /* width: 800px !important; */
+}
+
+/* MAP */
+
+#map{
+    height: 500px;
+    width: 50vw;
+    border-radius: 30px;
+}
+
+
+
+

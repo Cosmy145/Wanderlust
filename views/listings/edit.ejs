@@ -1,0 +1,88 @@
+<% layout('/layouts/boilerplate') %>
+<body>
+  <h2 class="text-center mt-4"><b>Edit Your Listing</b></h2>
+  <div class="main d-flex">
+    <div class="col-8 offset-2">
+      <form
+        action="/listings/<%= chosenOne._id %>?_method=PUT"
+        method="post"
+        novalidate
+        class="needs-validation"
+        enctype="multipart/form-data"
+      >
+        <div>
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            name="listing[title]"
+            placeholder="Kya hai bhai ye?!"
+            class="form-control"
+            value="<%= chosenOne.title %>"
+            required
+          />
+        </div>
+        <div>
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            type="text"
+            name="listing[description]"
+            placeholder="Varnan kijiye jagah ka"
+            class="form-control"
+            required
+          >
+            <%= chosenOne.description %></textarea
+          >
+        </div>
+        <div>
+          <p>Original Image: </p>
+          <img src="<%= originalImage %>">
+        </div>
+        <div>
+          <label for="image.url" class="form-label">Upload New Image</label>
+          <input
+            type="file"
+            name="listing[image][url]"
+            class="form-control"
+          />
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label for="price" class="form-label">Price</label>
+            <input
+              type="number"
+              name="listing[price]"
+              placeholder="Haha, put a million..."
+              class="form-control"
+              value="<%= chosenOne.price %>"
+              required
+            />
+          </div>
+          <div class="col-md-8">
+            <label for="country" class="form-label">Country</label>
+            <input
+              type="text"
+              name="listing[country]"
+              placeholder="Desh?!"
+              class="form-control"
+              value="<%= chosenOne.country %>"
+              required
+            />
+          </div>
+        </div>
+        <div>
+          <label for="location" class="form-label">Location</label>
+          <input
+            type="text"
+            name="listing[location]"
+            placeholder="Kahan se ho bhaiya aap?!"
+            class="form-control"
+            value="<%= chosenOne.location %>"
+            required
+          />
+        </div>
+
+        <input class="btn btn-primary" type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+</body>

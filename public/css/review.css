@@ -1,0 +1,34 @@
+body {
+	font-family: Arial, sans-serif;
+}
+
+.feedback-form {
+	max-width: 400px;
+}
+
+.rating {
+	margin-bottom: 10px;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: flex-end;
+}
+
+.rating input {
+	display: none;
+}
+
+.rating,label{
+	font-size: 24px;
+	cursor: pointer;
+}
+
+.rating label:hover,
+.rating label:hover ~ label {
+	color: orange;
+}
+
+.rating input:checked ~ label {
+	color: orange;
+}
+
+

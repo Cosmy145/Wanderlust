@@ -1,0 +1,87 @@
+<% layout('/layouts/boilerplate') %>
+<body>
+  <h2 class="text-center mt-4"><b>Create A New Listing</b></h2>
+  <div class="main d-flex">
+    <div class="col-8 offset-2">
+      <form
+        action="/listings"
+        method="post"
+        novalidate
+        class="needs-validation"
+        enctype="multipart/form-data"
+      >
+        <div>
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            name="listing[title]"
+            placeholder="Kya hai bhai ye?!"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Please provide a valid title.</div>
+          <div class="valid-feedback">Arre!!Badiya bro</div>
+        </div>
+        <div>
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            type="text"
+            name="listing[description]"
+            placeholder="Varnan kijiye jagah ka"
+            class="form-control"
+            required
+          ></textarea>
+          <div class="invalid-feedback">
+            Please provide a valid description.
+          </div>
+        </div>
+        <div>
+          <label for="image.url" class="form-label">Upload Listing Image</label>
+          <input
+            type="file"
+            name="listing[image][url]"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label for="price" class="form-label">Price</label>
+            <input
+              type="number"
+              name="listing[price]"
+              placeholder="Haha, put a million..."
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">Kuch to daalo bro</div>
+          </div>
+          <div class="col-md-8">
+            <label for="country" class="form-label">Country</label>
+            <input
+              type="text"
+              name="listing[country]"
+              placeholder="Desh?!"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">Please provide a valid country.</div>
+          </div>
+        </div>
+        <div>
+          <label for="location" class="form-label">Location</label>
+          <input
+            type="text"
+            name="listing[location]"
+            placeholder="Kahan se ho bhaiya aap?!"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Please provide a valid location.</div>
+        </div>
+
+        <input class="btn btn-primary" type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+</body>

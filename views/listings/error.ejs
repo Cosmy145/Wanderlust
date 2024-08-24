@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error</title>
+    <link rel="stylesheet" href="/css/error.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="xs-12 md-6 mx-auto">
+          <div id="countUp">
+            <div class="number" data-count="<%= statusCode %>">0</div>
+            <div class="text"><%= message %></div>
+            <div class="text">This may not mean anything.</div>
+            <div class="text">
+              I'm probably working on something that has blown up.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include inView.js -->
+    <script src="https://unpkg.com/in-view/dist/in-view.min.js"></script>
+    <!-- Your custom script -->
+    <script src="/js/error.js"></script>
+  </body>
+</html>

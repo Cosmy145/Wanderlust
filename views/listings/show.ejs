@@ -1,0 +1,123 @@
+<% layout('/layouts/boilerplate') %>
+<body>
+  <script>
+    const mapToken = '<%= process.env.MAP_TOKEN %>'
+  </script>
+  <script id="coordinates" type="application/json">
+    <%= JSON.stringify(chosenOne.geometry.coordinates) %>
+  </script>
+  <div class="main show d-flex flex-column align-items-center">
+    <div class="d-flex flex-column align-items-center mb-4 lh-1">
+      <h2 class="mt-2"><%= chosenOne.title %></h2>
+      <img
+        class="img-fluid rounded-4 mb-2 p-2"
+        src="<%= chosenOne.image.url %>"
+        alt="listing-image"
+      />
+      <p>
+        <i>Owned By: <u><%= chosenOne.owner.username %></u></i>
+      </p>
+      <p class="text-center"><%= chosenOne.description %></p>
+      <p>
+        Price: &#8377;<%= (chosenOne.price != null) ?
+        chosenOne.price.toLocaleString("en-IN") : "Price not available" %>
+      </p>
+      <p>Location: <%= chosenOne.location %></p>
+      <p>Country: <%= chosenOne.country %></p>
+    </div>
+    <% if (currUser && currUser._id.equals(chosenOne.owner._id)) { %>
+    <div class="submits d-flex gap-5">
+      <a class="btn btn-primary" href="/listings/<%= chosenOne._id %>/edit"
+        >Edit this listing</a
+      >
+      <form
+        action="/listings/<%= chosenOne._id %>?_method=DELETE"
+        method="post"
+      >
+        <button class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+    <% } %>
+  </div>
+  <% if (currUser) { %>
+  <div class="w-50 d-flex flex-start flex-column m-auto">
+    <hr />
+    <h2><u>Leave a Review</u></h2>
+    <br>
+    <form
+      method="post"
+      action="/listings/<%= chosenOne._id %>/review"
+      novalidate
+      class="needs-validation"
+    >
+      <fieldset class="starability-slot">
+        <input
+          type="radio"
+          id="no-rate"
+          class="input-no-rate"
+          name="review[rating]"
+          value="1"
+          checked
+          aria-label="No rating."
+        />
+        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+        <label for="first-rate1" title="Terrible">1 star</label>
+        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+        <label for="first-rate2" title="Not good">2 stars</label>
+        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+        <label for="first-rate3" title="Average">3 stars</label>
+        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+        <label for="first-rate4" title="Very good">4 stars</label>
+        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+        <label for="first-rate5" title="Amazing">5 stars</label>
+      </fieldset>
+      <label for="comment" class="form-label">Comment</label>
+      <textarea
+        name="review[comment]"
+        id="comment"
+        cols="60"
+        rows="5"
+        class="form-control"
+        placeholder="Please leave a review..."
+        required
+      ></textarea>
+      <div class="invalid-feedback">Please provide a comment.</div>
+      <button class="btn btn-primary mt-2 mb-2 align-self-center">
+        Submit
+      </button>
+    </form>
+  </div>
+  <% } %>
+  <div class="w-50 d-flex flex-start flex-column m-auto">
+    <hr />
+    <h2><b>All Reviews</b></h2>
+    <ul></ul>
+    <div class="row mb-4">
+      <% for( review of chosenOne.reviews) { %>
+      <div class="card col-5 ms-5 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">
+            <%= review.author.username.charAt(0).toUpperCase() +
+            review.author.username.slice(1) %>
+          </h5>
+          <p class="card-text"><%= review.comment %></p>
+          <p
+            class="starability-result card-text"
+            data-rating="<%= review.rating %>"
+          ></p>
+          <form
+            action="/listings/<%= chosenOne._id %>/review/<%= review._id %>?_method=DELETE"
+            method="post"
+          >
+            <button class="btn"><i class="fa-solid fa-trash-can"></i></button>
+          </form>
+        </div>
+      </div>
+      <% } %>
+    </div>
+      <hr>
+      <h2><b>Where you'll be</b></h2>
+      <div id="map"></div>
+  </div>
+  <script src="/js/map.js"></script>
+</body>
