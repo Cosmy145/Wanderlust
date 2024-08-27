@@ -15,7 +15,6 @@ module.exports.createReview = async (req, res) => {
 
 module.exports.destroyReview = async (req, res) => {
     let { id, reviewId } = req.params;
-    // this is for removing the child id from the parent.
     await listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await review.findByIdAndDelete(reviewId);
     req.flash("success", 'Review Deleted.')

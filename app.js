@@ -26,9 +26,8 @@ app.engine("ejs", ejsMate);
 
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true })); // this means the form only takes urlencoded data
+app.use(express.urlencoded({ extended: true }));
 
-// let MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 let atlasUrl = process.env.ATLAS_URL;
 
 const store = MongoStore.create({
@@ -55,11 +54,6 @@ const sessionOptions = {
   }   
 }
 
-
-
-
-
-
 main()
   .then((res) => {
     console.log("Connection is successful...");
@@ -68,23 +62,13 @@ main()
 async function main() {
   await mongoose.connect(atlasUrl);
 }
-// LOGGER
-// app.use((req, res, next) => {
-//     req.time = new Date().toString();
-//     console.log(req.method , req.time);
-//     next();
-// })
-// HOME ROUTE
-
 
 app.use(sessions(sessionOptions))
 app.use(flash())
  
-
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(user.authenticate()));
-
 
 passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
@@ -99,7 +83,6 @@ app.use((req, res, next) => {
 app.use('/listings', listingRouter)
 app.use('/listings/:id/review', reviewRouter)
 app.use('/', userRouter)
-
 
 app.all("*", (req, res, next) => {
   next(new expressError(404, "Page not found."));

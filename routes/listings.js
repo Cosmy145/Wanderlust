@@ -43,25 +43,6 @@ router
 // EDIT ROUTE
 router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(renderEditForm));
 
-// // INDEX ROUTE
-// router.get("/", wrapAsync(index));
 
-// SHOW ROUTE
-// router.get("/:id", wrapAsync(showListing));
-
-// POST NEW ROUTE
-// router.post("/", isLoggedIn, validateListing, wrapAsync(createListing));
-
-// // UPDATE ROUTE
-// router.put(
-//   "/:id",
-//   isLoggedIn,
-//   isOwner,
-//   validateListing,
-//   wrapAsync(updateListing)
-// );
-
-// DELETE ROUTE
-// router.delete("/:id", isLoggedIn, isOwner, wrapAsync(destroyListing));
 
 module.exports = router;

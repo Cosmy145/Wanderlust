@@ -60,7 +60,6 @@ const listingSchema = new Schema({
   }
 });
 
-// this middleware if for when u wanna delete all the child after the parent got delete
 listingSchema.post('findOneAndDelete', async (listing) => {
   if(listing){
     await review.deleteMany({_id : {$in : listing.reviews}})

@@ -26,9 +26,6 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res) => {
-  // if(!req.body.listing){
-  //   throw new expressError(400, 'Please enter a valid listing.')
-  // }
   let response = await geocodingClient.forwardGeocode({
     query: req.body.listing.location,
     limit: 2
