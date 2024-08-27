@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Use Address Autofill for Online Checkout (Javascript)</title>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-assembly/v1.3.0/assembly.min.css"
+      rel="stylesheet"
+    />
+    <script
+      id="search-js"
+      defer
+      src="https://api.mapbox.com/search-js/v1.0.0-beta.22/web.js"
+    ></script>
+  </head>
+  <body>
+    <div
+      class="round border border--gray-lighter px12 py24"
+      style="min-height: 550px"
+    >
+      <div class="wmax600 mx-auto">
+        <div class="address-page">
+          <h4 class="txt-l txt-bold mb6">Shipping Address</h4>
+          <form class="flex flex--column">
+            <!-- first and last name -->
+            <div class="grid grid--gut12">
+              <div class="col w-1/2">
+                <label class="txt-s txt-bold color-gray mb3">First Name</label>
+                <input class="input mb12" name="first-name" required />
+              </div>
+              <div class="col w-1/2">
+                <label class="txt-s txt-bold color-gray mb3">Last Name</label>
+                <input class="input mb12" name="last-name" required />
+              </div>
+            </div>
+
+            <!-- address-line1 with search icon -->
+            <label class="txt-s txt-bold color-gray mb3">Address</label>
+            <div class="relative color-gray">
+              <input
+                class="input mb12"
+                id="address-line1"
+                autocomplete="address-line1"
+                name="address-line1"
+                required
+              />
+              <svg
+                class="absolute"
+                viewBox="0 0 18 18"
+                width="20"
+                height="20"
+                fill="currentColor"
+                style="top: 8px; right: 8px"
+              >
+                <path
+                  d="M7.4 2.5c-2.7 0-4.9 2.2-4.9 4.9s2.2 4.9 4.9 4.9c1 0 1.8-.2 2.5-.8l3.7 3.7c.2.2.4.3.8.3.7 0 1.1-.4 1.1-1.1 0-.3-.1-.5-.3-.8L11.4 10c.4-.8.8-1.6.8-2.5.1-2.8-2.1-5-4.8-5zm0 1.6c1.8 0 3.2 1.4 3.2 3.2s-1.4 3.2-3.2 3.2-3.3-1.3-3.3-3.1 1.4-3.3 3.3-3.3z"
+                ></path>
+              </svg>
+            </div>
+
+            <!-- address-line2 -->
+            <label class="txt-s txt-bold color-gray mb3"
+              >Apartment, suite, etc. (optional)</label
+            >
+            <input
+              class="input mb12"
+              autocomplete="address-line2"
+              name="address-line2"
+            />
+
+            <!-- address-level2, address-level1, postal-code -->
+            <div class="grid grid--gut12 mb12">
+              <div class="col w-1/3">
+                <label class="txt-s txt-bold color-gray mb3">City</label>
+                <input
+                  class="input mb12"
+                  autocomplete="address-level2"
+                  name="address-level2"
+                  required
+                />
+              </div>
+              <div class="col w-1/3">
+                <label class="txt-s txt-bold color-gray mb3"
+                  >State / Region</label
+                >
+                <input
+                  class="input mb12"
+                  autocomplete="address-level1"
+                  name="address-level1"
+                  required
+                />
+              </div>
+              <div class="col w-1/3">
+                <label class="txt-s txt-bold color-gray mb3"
+                  >ZIP / Postcode</label
+                >
+                <input
+                  class="input"
+                  autocomplete="postal-code"
+                  name="postal-code"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- minimap for visual confirmation-->
+            <div
+              id="minimap-container"
+              class="none h180 wfull relative mt18 mb60"
+            ></div>
+
+            <!-- continue button -->
+            <div class="mb12 submit-btns align-r">
+              <button type="submit" class="btn round">Continue</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- confirmation page -->
+      <div class="confirm-page none">
+        <div class="confirm-order-blurb">
+          <h4 class="txt-l txt-bold mb6">Confirm Order</h4>
+          <p class="mb24">
+            Review your order and shipping details below. This is only an
+            example, so we aren't going to ship anything to you.
+          </p>
+        </div>
+        <div class="order-submitted-blurb none mb24">
+          <h4 class="txt-l txt-bold mb6">Order Submitted!</h4>
+          <p class="mb12">Your order is on the way!</p>
+          <div
+            class="txt-ms border-b color-blue color-blue-dark-on-hover link restart-button inline-block"
+          >
+            Try this example again
+          </div>
+        </div>
+        <!-- order details -->
+        <div class="round border border--gray-light px18 py6 flex mb24">
+          <div class="txt-bold mr24 w60">Order</div>
+          <div class="flex-child-grow">1 - Mapbox Developer Tee Shirt</div>
+        </div>
+        <!-- shipping address -->
+        <div class="round border border--gray-light px18 py6 flex mb24">
+          <div class="txt-bold mr24 w60">Ship To</div>
+          <div class="flex-child-grow" id="shipping-address"></div>
+          <div>
+            <div
+              class="txt-ms border-b color-blue color-blue-dark-on-hover link change-address-button"
+            >
+              Change
+            </div>
+          </div>
+        </div>
+        <div class="mb12 submit-btns align-r">
+          <button type="submit" class="btn round submit-order-button">
+            Submit Order
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiZGVtb25kdWRlMDgiLCJhIjoiY20wNnJrNXhiMHg3YTJrc2IzcjJnZjZqeCJ9.n4mF4k-6eYauxsrCHESTbA";
+      let autofillCollection;
+      let minimap;
+
+      // Show the minimap
+      function showMap() {
+        const el = document.getElementById("minimap-container");
+        el.classList.remove("none");
+      }
+
+      function showConfirmPage() {
+        document.querySelector(".address-page").classList.add("none");
+        document.querySelector(".confirm-page").classList.remove("none");
+      }
+
+      function showAddressPage() {
+        document.querySelector(".address-page").classList.remove("none");
+        document.querySelector(".confirm-page").classList.add("none");
+      }
+
+      function showSubmittedPage() {
+        document.querySelector(".submit-order-button").classList.add("none");
+        document.querySelector(".confirm-order-blurb").classList.add("none");
+        document.querySelector(".change-address-button").classList.add("none");
+        document
+          .querySelector(".order-submitted-blurb")
+          .classList.remove("none");
+      }
+
+      function restartExample() {
+        window.location.reload();
+      }
+
+      // Build out HTML to display the shipping address as formatted text
+      function buildAddressHTML(formData) {
+        let addressHTML = `${formData.get("first-name")} ${formData.get(
+          "last-name"
+        )}<br/>`;
+        addressHTML += `${formData.get("address-line1")}<br/>`;
+        if (formData.get("address-line2"))
+          addressHTML += `${formData.get("address-line2")}<br/>`;
+        addressHTML += `${formData.get("address-level2")} ${formData.get(
+          "address-level1"
+        )} ${formData.get("postal-code")}`;
+        return addressHTML;
+      }
+
+      // Click listener for the "Change" link
+      document
+        .querySelector(".change-address-button")
+        .addEventListener("click", showAddressPage);
+
+      // Click listener for the "Submit Order" button
+      document
+        .querySelector(".submit-order-button")
+        .addEventListener("click", showSubmittedPage);
+
+      // Click listener for the "Try this example again" link
+      document
+        .querySelector(".restart-button")
+        .addEventListener("click", restartExample);
+
+      // Autofill initialization
+      window.addEventListener("load", function () {
+        mapboxsearch.config.accessToken = mapboxgl.accessToken;
+
+        autofillCollection = mapboxsearch.autofill({});
+
+        minimap = new MapboxAddressMinimap();
+        minimap.canAdjustMarker = true;
+        minimap.satelliteToggle = true;
+        minimap.onSaveMarkerLocation = (lnglat) => {
+          console.log(`Marker moved to ${lnglat}`);
+        };
+
+        const minimapContainer = document.getElementById("minimap-container");
+        minimapContainer.appendChild(minimap);
+
+        autofillCollection.addEventListener("retrieve", async (e) => {
+          if (minimap) {
+            minimap.feature = e.detail.features[0];
+            showMap();
+          }
+        });
+
+        const form = document.querySelector("form");
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const result = await mapboxsearch.confirmAddress(form, {
+            minimap: true,
+            skipConfirmModal: (feature) => {
+              return ["exact"].includes(
+                feature.properties.match_code.confidence
+              );
+            },
+          });
+
+          if (result.type === "nochange") {
+            const formData = new FormData(e.target);
+            document.getElementById("shipping-address").innerHTML =
+              buildAddressHTML(formData);
+            showConfirmPage();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

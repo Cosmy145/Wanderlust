@@ -10,4 +10,4 @@ const map = new mapboxgl.Map({
 
 const marker = new mapboxgl.Marker({ color: "red" })
   .setLngLat(coordinates)
-  .addTo(map);
+  .addTo(map);           

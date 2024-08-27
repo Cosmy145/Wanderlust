@@ -41,7 +41,7 @@ const store = MongoStore.create({
 
 store.on('error', () => {
   console.log('Error in mongo session store.')
-})
+})          
 
 const sessionOptions = {
   store,
@@ -52,7 +52,7 @@ const sessionOptions = {
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
     maxAge: 7 * 24 * 60 * 60,
     httpOnly: true
-  }
+  }   
 }
 
 
@@ -79,7 +79,7 @@ async function main() {
 
 app.use(sessions(sessionOptions))
 app.use(flash())
-
+ 
 
 app.use(passport.initialize());
 app.use(passport.session());
